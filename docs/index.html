@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visit Bar — a hairline timer for medical visits</title>
+<meta name="description" content="A 0.5 mm tall timer bar pinned to the top of your screen. Green, yellow, flashing red — with a built-in stopwatch. Free for Windows.">
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --border: #2d333b;
+    --text: #e6edf3;
+    --muted: #9da7b3;
+    --green: #00c832;
+    --yellow: #ffd800;
+    --red: #ff2020;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    text-align: center;
+    padding: 72px 24px 48px;
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,200,50,.12), transparent);
+  }
+  .bar-demo {
+    height: 3px; width: 220px; margin: 0 auto 28px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--green) 55%, #1c2128 55%);
+  }
+  h1 { font-size: 3rem; margin: 0 0 8px; letter-spacing: -1px; }
+  .tagline { color: var(--muted); font-size: 1.2rem; max-width: 560px; margin: 0 auto 32px; }
+  .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 13px 28px; border-radius: 8px;
+    font-weight: 600; font-size: 1.05rem; text-decoration: none;
+    transition: transform .08s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--green); color: #04140a; }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); background: var(--panel); }
+
+  section { padding: 40px 0; }
+  h2 { font-size: 1.6rem; margin: 0 0 20px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px;
+  }
+  .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
+  .dot.g { background: var(--green); } .dot.y { background: var(--yellow); } .dot.r { background: var(--red); }
+
+  figure { margin: 0 0 24px; text-align: center; }
+  figure img {
+    max-width: 100%; background: #000; border: 1px solid var(--border);
+    border-radius: 6px; image-rendering: pixelated;
+  }
+  figure.stopwatch img, figure.settings img { image-rendering: auto; }
+  figcaption { color: var(--muted); font-size: .9rem; margin-top: 8px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; }
+  code { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: .9em; }
+
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 40px 0 56px; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar-demo"></div>
+  <h1>Visit Bar</h1>
+  <p class="tagline">A hairline timer that lives along the very top edge of your screen — built for medical visits, useful for any timed meeting.</p>
+  <div class="actions">
+    <a class="btn btn-primary" href="https://github.com/robbie-med/vihsihtlihmiht/releases/latest/download/visit-bar.exe">Download for Windows</a>
+    <a class="btn btn-ghost" href="https://github.com/robbie-med/vihsihtlihmiht">View on GitHub</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <div class="features">
+      <div class="card">
+        <h3>Hairline thin</h3>
+        <p>At most 0.5&nbsp;mm tall — one or two pixels. It reserves its own strip of the screen, so maximized windows sit below it instead of hiding it.</p>
+      </div>
+      <div class="card">
+        <h3>Traffic-light timing</h3>
+        <p><span class="dot g"></span>green while time is plenty<br>
+           <span class="dot y"></span>yellow at 5 minutes left<br>
+           <span class="dot r"></span>flashing red at 2 minutes, and in overtime</p>
+      </div>
+      <div class="card">
+        <h3>Built-in stopwatch</h3>
+        <p>A small always-on-top readout shows elapsed time and time remaining — or overtime in red. Drag it anywhere; right-click hides it.</p>
+      </div>
+      <div class="card">
+        <h3>Configurable</h3>
+        <p>Right-click the bar to set the visit length and the yellow/red thresholds. Settings persist between runs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>See it</h2>
+    <figure>
+      <img src="bar-green.png" alt="The visit bar filling green across the top of the screen">
+      <figcaption>Green — filling up, plenty of time left.</figcaption>
+    </figure>
+    <figure>
+      <img src="bar-yellow.png" alt="The visit bar filled yellow">
+      <figcaption>Yellow — 5 minutes or less remaining.</figcaption>
+    </figure>
+    <figure>
+      <img src="bar-red.png" alt="The visit bar flashing red across the full width">
+      <figcaption>Red — 2 minutes or less. It flashes until you end the visit.</figcaption>
+    </figure>
+    <figure class="stopwatch">
+      <img src="stopwatch.png" alt="Stopwatch showing elapsed and remaining time">
+      <figcaption>The stopwatch: elapsed time, with remaining time underneath.</figcaption>
+    </figure>
+    <figure class="settings">
+      <img src="settings.png" alt="Visit Bar settings window">
+      <figcaption>Right-click the bar for settings.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Controls</h2>
+    <table>
+      <tr><th>Action</th><th>Effect</th></tr>
+      <tr><td>Right-click the bar</td><td>Open settings</td></tr>
+      <tr><td>Triple-click the bar</td><td>Close (single/double clicks do nothing — no accidental exits)</td></tr>
+      <tr><td><code>Esc</code></td><td>Close</td></tr>
+      <tr><td>Drag the stopwatch</td><td>Move it</td></tr>
+      <tr><td>Right-click the stopwatch</td><td>Hide it</td></tr>
+    </table>
+  </section>
+
+  <footer>
+    Free and open source under the MIT license ·
+    <a href="https://github.com/robbie-med/vihsihtlihmiht">github.com/robbie-med/vihsihtlihmiht</a>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build standalone exe
+        run: |
+          pip install pyinstaller
+          pyinstaller --onefile --windowed --name visit-bar visit_bar.py
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          gh release create ${{ github.ref_name }} dist/visit-bar.exe
+          --title "Visit Bar ${{ github.ref_name }}"
+          --notes "Standalone Windows build — download visit-bar.exe and double-click to start a 12-minute visit timer."
