@@ -76,7 +76,7 @@ class APPBARDATA(ctypes.Structure):
 
 def config_path():
     base = os.environ.get("APPDATA") or os.path.expanduser("~")
-    return os.path.join(base, "visit-bar", "settings.json")
+    return os.path.join(base, "vihsihtlihmiht", "settings.json")
 
 
 def load_settings():
@@ -186,7 +186,7 @@ class VisitBar:
 
         win = tk.Toplevel(self.root)
         self.settings_window = win
-        win.title("Visit Bar Settings")
+        win.title("vihsihtlihmiht settings")
         win.attributes("-topmost", True)
         win.resizable(False, False)
         win.configure(padx=14, pady=12)

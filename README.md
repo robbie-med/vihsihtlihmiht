@@ -1,4 +1,6 @@
-# Visit Bar
+# vihsihtlihmiht
+
+> “You have 15 minutes—to establish rapport, do the med rec, examine the patient, listen to your preceptor’s stories, and place your orders. Here, take this.”
 
 A tiny timer bar for medical visits (or any timed meeting) that lives along the
 very top edge of your screen.
@@ -39,13 +41,13 @@ Settings (right-click the bar):
 
 ## Download (Windows)
 
-Grab `visit-bar.exe` from the
+Grab `vihsihtlihmiht.exe` from the
 [Releases](../../releases) page and double-click it. No installation, no Python
 required — it runs a 12-minute visit by default.
 
 To time a different length, create a shortcut to the exe, open its
 **Properties**, and append the number of minutes to the *Target* field, e.g.
-`... visit-bar.exe 20` — or just right-click the bar and use the settings.
+`... vihsihtlihmiht.exe 20` — or just right-click the bar and use the settings.
 
 ## Controls
 
@@ -65,7 +67,7 @@ Right-click the bar to open the settings window:
 - **Bar turns yellow at** (minutes left) — default 5
 - **Bar flashes red at** (minutes left) — default 2
 
-*Apply and restart* saves the settings to `%APPDATA%\visit-bar\settings.json`
+*Apply and restart* saves the settings to `%APPDATA%\vihsihtlihmiht\settings.json`
 and restarts the timer with the new values.
 
 ## Run from source

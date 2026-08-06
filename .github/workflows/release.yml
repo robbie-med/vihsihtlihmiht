@@ -3,6 +3,11 @@ name: release
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag, e.g. v1.0.0"
+        required: true
 
 permissions:
   contents: write
@@ -18,11 +23,12 @@ jobs:
       - name: Build standalone exe
         run: |
           pip install pyinstaller
-          pyinstaller --onefile --windowed --name visit-bar visit_bar.py
+          pyinstaller --onefile --windowed --name vihsihtlihmiht visit_bar.py
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
         run: >-
-          gh release create ${{ github.ref_name }} dist/visit-bar.exe
-          --title "Visit Bar ${{ github.ref_name }}"
-          --notes "Standalone Windows build — download visit-bar.exe and double-click to start a 12-minute visit timer."
+          gh release create $env:RELEASE_TAG dist/vihsihtlihmiht.exe
+          --title "vihsihtlihmiht $env:RELEASE_TAG"
+          --notes "Standalone Windows build — download vihsihtlihmiht.exe and double-click to start a 12-minute visit timer."
