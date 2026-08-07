@@ -32,3 +32,28 @@ jobs:
           gh release create $env:RELEASE_TAG dist/vihsihtlihmiht.exe
           --title "vihsihtlihmiht $env:RELEASE_TAG"
           --notes "Standalone Windows build — download vihsihtlihmiht.exe and double-click to start a 12-minute visit timer."
+
+  # Runs after build-windows, which creates the release, and adds the Linux
+  # binary to it. Kept as a separate job so the Windows build above is
+  # untouched — if this one fails, the Windows release still ships.
+  build-linux:
+    needs: build-windows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check tkinter is present
+        run: python -c "import tkinter; print('tkinter', tkinter.TkVersion)"
+      - name: Build standalone binary
+        run: |
+          pip install pyinstaller
+          pyinstaller --onefile --name vihsihtlihmiht-linux visit_bar_linux.py
+      - name: Attach to the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: >-
+          gh release upload "$RELEASE_TAG" dist/vihsihtlihmiht-linux
+          --repo "$GITHUB_REPOSITORY" --clobber

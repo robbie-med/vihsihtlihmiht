@@ -39,15 +39,35 @@ Settings (right-click the bar):
 
 ![settings window](docs/settings.png)
 
-## Download (Windows)
+## Download
 
-Grab `vihsihtlihmiht.exe` from the
-[Releases](../../releases) page and double-click it. No installation, no Python
-required — it runs a 12-minute visit by default.
+Standalone builds are on the [Releases](../../releases) page. No installation,
+no Python required — both run a 12-minute visit by default.
+
+### Windows
+
+Grab `vihsihtlihmiht.exe` and double-click it.
 
 To time a different length, create a shortcut to the exe, open its
 **Properties**, and append the number of minutes to the *Target* field, e.g.
 `... vihsihtlihmiht.exe 20` — or just right-click the bar and use the settings.
+
+### Linux
+
+Grab `vihsihtlihmiht-linux`, then:
+
+```
+chmod +x vihsihtlihmiht-linux
+./vihsihtlihmiht-linux 20        # optional: minutes
+```
+
+The binary is built on Ubuntu; on an older distro (or if it complains about
+glibc) run from source instead — it's a single file with no dependencies beyond
+Python and tkinter.
+
+### macOS
+
+No prebuilt binary — run from source (see below).
 
 ## Controls
 
@@ -67,23 +87,77 @@ Right-click the bar to open the settings window:
 - **Bar turns yellow at** (minutes left) — default 5
 - **Bar flashes red at** (minutes left) — default 2
 
-*Apply and restart* saves the settings to `%APPDATA%\vihsihtlihmiht\settings.json`
-and restarts the timer with the new values.
+*Apply and restart* saves the settings and restarts the timer with the new
+values. Settings live at:
+
+| Platform | Path |
+| --- | --- |
+| Windows | `%APPDATA%\vihsihtlihmiht\settings.json` |
+| Linux | `~/.config/vihsihtlihmiht/settings.json` (respects `$XDG_CONFIG_HOME`) |
+| macOS | `~/Library/Application Support/vihsihtlihmiht/settings.json` |
 
 ## Run from source
 
-Requires Python 3.8+ with tkinter (included in standard Windows installs):
+Requires Python 3.8+ with tkinter. No third-party dependencies. Pick the script
+for your platform:
 
 ```
-python visit_bar.py [minutes]     # overrides the saved visit length
+python visit_bar.py [minutes]          # Windows
+python3 visit_bar_linux.py [minutes]   # Linux
+python3 visit_bar_mac.py [minutes]     # macOS
 ```
 
-`visit_bar.bat` is a convenience launcher that runs it without a console window.
+The optional `minutes` argument overrides the saved visit length.
+
+tkinter ships with the standard Windows and macOS Python installers. On Linux
+it's usually a separate package:
+
+```
+sudo apt install python3-tk       # Debian/Ubuntu
+sudo dnf install python3-tkinter  # Fedora
+sudo pacman -S tk                 # Arch
+```
+
+Convenience launchers: `visit_bar.bat` on Windows (runs without a console
+window), `visit_bar.sh` on Linux/macOS (picks the right script for your OS).
 
 ## Platform support
 
-Windows only, for now. The space-reserving mechanism is Windows-specific; Mac
-and Linux versions are on the roadmap (see issues).
+Each platform has its own standalone script. They share no code, so a change to
+one can't break another.
+
+| Platform | Script | Status | Reserves screen space |
+| --- | --- | --- | --- |
+| Windows | `visit_bar.py` | Supported | Yes — registers a Windows AppBar |
+| Linux (X11) | `visit_bar_linux.py` | Supported | Yes — `_NET_WM_STRUT_PARTIAL` |
+| Linux (Wayland) | `visit_bar_linux.py` | Runs under XWayland | No — see below |
+| macOS | `visit_bar_mac.py` | Experimental, untested | No |
+
+**Linux/X11** is the fully supported Linux path, tested on Xfce (xfwm4) with a
+dual-monitor setup. Any EWMH-compliant window manager — KDE, GNOME/Mutter on
+X11, i3, Openbox — honours the same hint. The bar spans the *primary* monitor
+only, not the whole virtual desktop.
+
+Two Linux-only quirks worth knowing:
+
+- The bar is a **dock window**, so it never takes keyboard focus and `Esc`
+  won't reach it. Right-click the **stopwatch** for a menu (settings, hide,
+  quit) — that's the reliable way out.
+- Under **Wayland** there is no strut equivalent that tkinter can reach (it
+  would need the layer-shell protocol), so the bar floats on top but maximized
+  windows slide underneath. Log into an X11/Xorg session for the full effect;
+  the script prints a note when it detects Wayland.
+
+**macOS** is written but has **not been run on a Mac** — no space reservation is
+possible without private APIs, so the bar is a plain floating window pinned just
+below the menu bar. If it's hidden behind your menu bar (common on notched
+Macs), nudge it down:
+
+```
+VISIT_BAR_TOP_OFFSET=38 python3 visit_bar_mac.py
+```
+
+Bug reports welcome.
 
 ## License
 
