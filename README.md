@@ -61,8 +61,9 @@ chmod +x vihsihtlihmiht-linux
 ./vihsihtlihmiht-linux 20        # optional: minutes
 ```
 
-The binary is built on Ubuntu; on an older distro (or if it complains about
-glibc) run from source instead — it's a single file with no dependencies beyond
+The binary is built on Ubuntu 22.04, so it needs **glibc 2.35 or newer**
+(Ubuntu 22.04+, Mint 21+, Debian 12+, Fedora 36+). On anything older it exits
+with `GLIBC_… not found` — run from source instead, which works anywhere with
 Python and tkinter.
 
 ### macOS

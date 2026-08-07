@@ -38,7 +38,11 @@ jobs:
   # untouched — if this one fails, the Windows release still ships.
   build-linux:
     needs: build-windows
-    runs-on: ubuntu-latest
+    # Pinned, NOT ubuntu-latest. glibc is backward but not forward compatible:
+    # a binary built on 24.04 (glibc 2.39) refuses to start on Ubuntu 22.04 /
+    # Mint 21 with "GLIBC_2.38 not found". Building on the oldest supported
+    # runner makes the binary run on that release and everything newer.
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
